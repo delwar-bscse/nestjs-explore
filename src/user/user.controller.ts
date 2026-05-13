@@ -1,6 +1,7 @@
 import { Body, Controller, Delete, Get, Param, Patch, Post, Put } from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/user.dto';
+import { StringToNumberPipe } from 'src/common/pipes/string-to-number/string-to-number.pipe';
 
 @Controller('user')
 export class UserController {
@@ -12,8 +13,8 @@ export class UserController {
     }
 
     @Get(':id')
-    getUserById(@Param('id') id: string) {
-        return this.userService.getUserById(Number(id));
+    getUserById(@Param('id', new StringToNumberPipe()) id: number) {
+        return this.userService.getUserById(id);
     }
 
     @Post()
