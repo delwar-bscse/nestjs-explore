@@ -1,12 +1,14 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post, Put, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, ParseIntPipe, Patch, Post, Put, UseFilters, UseGuards } from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/user.dto';
 import { StringToNumberPipe } from 'src/common/pipes/string-to-number/string-to-number.pipe';
 import { AuthGuard } from 'src/common/guards/auth/auth.guard';
 import { Roles } from 'src/common/guards/auth/auth.decorator';
 import { Role } from 'src/common/guards/auth/auth.enums';
+import { HttpExceptionFilter } from 'src/common/filters/http-exception/http-exception.filter';
 
 @Controller('user')
+@UseFilters(HttpExceptionFilter)
 export class UserController {
     constructor(private readonly userService: UserService) {}
 
@@ -18,7 +20,7 @@ export class UserController {
     }
 
     @Get(':id')
-    getUserById(@Param('id', new StringToNumberPipe()) id: number) {
+    getUserById(@Param('id', ParseIntPipe) id: number) {
         return this.userService.getUserById(id);
     }
 
@@ -38,7 +40,7 @@ export class UserController {
     }
 
     @Delete(':id')
-    deleteUser(@Param('id') id: string) {
-        return this.userService.deleteUser(Number(id));
+    deleteUser(@Param('id', new StringToNumberPipe()) id: number) {
+        return this.userService.deleteUser(id);
     }
 }
