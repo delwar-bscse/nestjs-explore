@@ -1,13 +1,18 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post, Put } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Patch, Post, Put, UseGuards } from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/user.dto';
 import { StringToNumberPipe } from 'src/common/pipes/string-to-number/string-to-number.pipe';
+import { AuthGuard } from 'src/common/guards/auth/auth.guard';
+import { Roles } from 'src/common/guards/auth/auth.decorator';
+import { Role } from 'src/common/guards/auth/auth.enums';
 
 @Controller('user')
 export class UserController {
     constructor(private readonly userService: UserService) {}
 
     @Get()
+    @UseGuards(AuthGuard)
+    @Roles(Role.ADMIN, Role.USER)
     getUser() {
         return this.userService.getUsers();
     }
