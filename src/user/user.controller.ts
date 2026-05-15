@@ -31,17 +31,17 @@ export class UserController {
     }
 
     @Put(':id')
-    putUser(@Param('id') id: string, @Body() data: { name: string; age: number }) {
-        return this.userService.putUser(Number(id), data);
+    async putUser(@Param('id') id: string, @Body() data: Partial<User>) {
+        return this.userService.putUser(id, data);
     }
 
     @Patch(':id')
-    patchUser(@Param('id') id: string, @Body() data: Partial<{ name: string; age: number }>) {
-        return this.userService.patchUser(Number(id), data);
+    async patchUser(@Param('id') id: string, @Body() data: Partial<User>) {
+        return this.userService.patchUser(id, data);
     }
 
     @Delete(':id')
-    deleteUser(@Param('id', new StringToNumberPipe()) id: number) {
+    async deleteUser(@Param('id') id: string) {
         return this.userService.deleteUser(id);
     }
 }
