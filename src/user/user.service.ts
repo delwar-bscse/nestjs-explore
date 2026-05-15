@@ -1,5 +1,4 @@
 import { Injectable } from '@nestjs/common';
-import { ICreateUser, IUser } from './interface/user.interface';
 import { User, UserDocument } from './user.schema';
 import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
@@ -7,11 +6,6 @@ import { InjectModel } from '@nestjs/mongoose';
 @Injectable()
 export class UserService {
     constructor(@InjectModel(User.name) private UserModel: Model<UserDocument>) { }
-
-    private users: IUser[] = [
-        { id: 1, name: 'M D Hossain', age: 30 },
-        { id: 2, name: 'John Doe', age: 25 }
-    ];
 
     // Method to get all users
     async getUsers(): Promise<User[]> {
