@@ -16,17 +16,17 @@ export class UserController {
     @Get()
     @UseGuards(AuthGuard)
     @Roles(Role.ADMIN, Role.USER)
-    getUser() {
+    async getUser(){
         return this.userService.getUsers();
     }
 
     @Get(':id')
-    getUserById(@Param('id', ParseIntPipe) id: number) {
+    async getUserById(@Param('id') id: string) {
         return this.userService.getUserById(id);
     }
 
     @Post()
-    createUser(@Body() data: Partial<User>) {
+    async createUser(@Body() data: Partial<User>) {
         return this.userService.createUser(data);
     }
 

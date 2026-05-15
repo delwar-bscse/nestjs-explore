@@ -14,13 +14,13 @@ export class UserService {
     ];
 
     // Method to get all users
-    getUsers(): IUser[] {
-        return this.users;
+    async getUsers(): Promise<User[]> {
+        return this.UserModel.find().exec();
     }
 
     // Method to get a user by ID
-    getUserById(id: number): IUser | undefined {
-        return this.users.find(user => user.id === id);
+    async getUserById(id: string): Promise<User | null> {
+        return this.UserModel.findById(id).exec();
     }
 
     // Method to create a new user
