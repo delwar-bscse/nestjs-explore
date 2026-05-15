@@ -6,6 +6,7 @@ import { AuthGuard } from 'src/common/guards/auth/auth.guard';
 import { Roles } from 'src/common/guards/auth/auth.decorator';
 import { Role } from 'src/common/guards/auth/auth.enums';
 import { HttpExceptionFilter } from 'src/common/filters/http-exception/http-exception.filter';
+import { User } from './user.schema';
 
 @Controller('user')
 @UseFilters(HttpExceptionFilter)
@@ -25,7 +26,7 @@ export class UserController {
     }
 
     @Post()
-    createUser(@Body() data: CreateUserDto) {
+    createUser(@Body() data: Partial<User>) {
         return this.userService.createUser(data);
     }
 

@@ -1,8 +1,13 @@
 import { Injectable } from '@nestjs/common';
 import { ICreateUser, IUser } from './interface/user.interface';
+import { User, UserDocument } from './user.schema';
+import { Model } from 'mongoose';
+import { InjectModel } from '@nestjs/mongoose';
 
 @Injectable()
 export class UserService {
+    constructor(@InjectModel(User.name) private UserModel:Model<UserDocument>) {}
+
     private users: IUser[] = [
         { id:1, name: 'M D Hossain', age: 30 },
         { id:2, name: 'John Doe', age: 25 }
@@ -19,13 +24,9 @@ export class UserService {
     }
 
     // Method to create a new user
-    createUser(data: ICreateUser): IUser {
-        const newUser: IUser = {
-            id: this.users.length + 1,
-            ...data
-        };
-        this.users.push(newUser);
-        return newUser;
+    async createUser(data: Partial<User>): Promise<User> {
+        const newUser = new this.UserModel(data);
+        return await newUser.save();
     }
 
     // Method to update a user by ID
