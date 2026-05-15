@@ -1,11 +1,11 @@
 import { Injectable } from '@nestjs/common';
-import { User, UserDocument } from './user.schema';
+import { User } from './user.schema';
 import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 
 @Injectable()
 export class UserService {
-    constructor(@InjectModel(User.name) private UserModel: Model<UserDocument>) { }
+    constructor(@InjectModel(User.name) private UserModel: Model<User>) { }
 
     // Method to get all users
     async getUsers(): Promise<User[]> {
